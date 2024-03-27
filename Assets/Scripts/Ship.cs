@@ -9,6 +9,8 @@ public class Ship : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreTmp2;
     [SerializeField] GameObject explosionPrfb;
     [SerializeField] GameObject gameOver;
+    [SerializeField] AudioSource sound;
+
     int score;
 
     private void FixedUpdate()
@@ -25,6 +27,7 @@ public class Ship : MonoBehaviour
             gameOver.SetActive(true);
             scoreTmp2.SetText("Score: " + score.ToString());
             Instantiate(explosionPrfb, transform.position, Quaternion.identity);
+            sound.Stop();
             Destroy(gameObject);
         }
     }
