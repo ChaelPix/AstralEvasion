@@ -7,8 +7,10 @@ public class Spawner : MonoBehaviour
     [SerializeField] private GameObject[] asteroidsPrfbs;
     [SerializeField] float spawnrate;
     [SerializeField, Range(0, 1)] float spawnrateMargin;
-
+    [SerializeField] private int asteroidBySpawn = 3;
     [SerializeField] private float spawnIncreaseOverTime;
+    [SerializeField] private float minSpawnTime;
+    [SerializeField] private float delayByAsteroid;
 
     Vector3 spawnPositionMin, spawnPositionMax;
     [SerializeField] Vector2 size;
@@ -29,29 +31,33 @@ public class Spawner : MonoBehaviour
 
         if(t >= spawnTime)
         {
-            InstantiateAsteroid();
+            StartCoroutine(InstantiateAsteroid());
             SetSpawnTime();
         }
 
     }
 
-    void InstantiateAsteroid()
+    IEnumerator InstantiateAsteroid()
     {
-        float posX = Random.Range(spawnPositionMin.x, spawnPositionMax.x);
-        float posY = Random.Range(spawnPositionMin.x, spawnPositionMax.x);
-        Vector3 pos = new Vector3(posX, posY, transform.position.z);
+       for (int i = 0; i < asteroidBySpawn; i++)
+        {
+            float posX = Random.Range(spawnPositionMin.x, spawnPositionMax.x);
+            float posY = Random.Range(spawnPositionMin.x, spawnPositionMax.x);
+            Vector3 pos = new Vector3(posX, posY, transform.position.z);
 
-        int x = Random.Range(0, asteroidsPrfbs.Length);
-        Transform obj = Instantiate(asteroidsPrfbs[x], pos, Quaternion.identity).transform;
-        obj.localScale = Vector3.one * Random.Range(size.x, size.y);
+            int x = Random.Range(0, asteroidsPrfbs.Length);
+            Transform obj = Instantiate(asteroidsPrfbs[x], pos, Quaternion.identity).transform;
+            obj.localScale = Vector3.one * Random.Range(size.x, size.y);
 
-        xAsteroidsSpawned++;
+            xAsteroidsSpawned++;
+            yield return new WaitForSeconds(delayByAsteroid);
+       }
     }
 
     void SetSpawnTime()
     {
         t = 0;
-        spawnTime = (spawnrate * (1 + Random.Range(-spawnrateMargin, spawnrateMargin))) - xAsteroidsSpawned * spawnIncreaseOverTime;
+        spawnTime = Mathf.Max(((spawnrate * (1 + Random.Range(-spawnrateMargin, spawnrateMargin))) - xAsteroidsSpawned * spawnIncreaseOverTime), minSpawnTime);
         
     }
 }

@@ -14,31 +14,31 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 9
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  m_FogMode: 3
-  m_FogDensity: 0.01
-  m_LinearFogStart: 0
-  m_LinearFogEnd: 300
+  m_Fog: 1
+  m_FogColor: {r: 0.0754717, g: 0.044857264, b: 0.0030853073, a: 1}
+  m_FogMode: 1
+  m_FogDensity: 0.1
+  m_LinearFogStart: 998.85
+  m_LinearFogEnd: 1145.61
   m_AmbientSkyColor: {r: 0.212, g: 0.227, b: 0.259, a: 1}
   m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: 848426001751865f0936f300a8f16e2d, type: 2}
-  m_HaloStrength: 0.5
-  m_FlareStrength: 1
-  m_FlareFadeSpeed: 3
+  m_SkyboxMaterial: {fileID: 2100000, guid: cb0c4d20058461a4db7dc95a11a894ee, type: 2}
+  m_HaloStrength: 0.136
+  m_FlareStrength: 0.392
+  m_FlareFadeSpeed: 3.06
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
   m_DefaultReflectionResolution: 128
   m_ReflectionBounces: 1
-  m_ReflectionIntensity: 1
+  m_ReflectionIntensity: 0
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.03753179, g: 0.05246421, b: 0.09738084, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 0}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -473,8 +473,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 6.5628147, y: 0.38381055, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 6.5628147, y: 0.38381055, z: 5.175922}
+  m_Center: {x: 0, y: 0, z: -2.0879605}
 --- !u!65 &807348746
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -691,10 +691,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -772,15 +772,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 372732848097269685, guid: 4fc3b4f8b26184c458fc789c84d99112, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 372732848097269685, guid: 4fc3b4f8b26184c458fc789c84d99112, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 372732848097269685, guid: 4fc3b4f8b26184c458fc789c84d99112, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 372732848097269685, guid: 4fc3b4f8b26184c458fc789c84d99112, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -941,7 +941,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1500
-  field of view: 69.4
+  field of view: 83
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1403,7 +1403,10 @@ MonoBehaviour:
   - {fileID: 892033618516175254, guid: f810a0baccf74044d8b4ab71649caa0b, type: 3}
   spawnrate: 1
   spawnrateMargin: 0.05
+  asteroidBySpawn: 3
   spawnIncreaseOverTime: 0.005
+  minSpawnTime: 0.1
+  delayByAsteroid: 0.1
   size: {x: 5, y: 25}
 --- !u!4 &2130300609
 Transform:
@@ -1415,7 +1418,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 25, z: 1349}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 250, y: 250, z: 250}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -1585,6 +1588,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4202051434664621295, guid: aff47f583065e064abfe13d119eb967a, type: 3}
+      propertyPath: prewarm
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202051434664621295, guid: aff47f583065e064abfe13d119eb967a, type: 3}
+      propertyPath: InitialModule.startSizeY.scalar
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4202051434664621295, guid: aff47f583065e064abfe13d119eb967a, type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 250
+      objectReference: {fileID: 0}
     - target: {fileID: 5257422883103106735, guid: aff47f583065e064abfe13d119eb967a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.71
@@ -1595,7 +1610,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5257422883103106735, guid: aff47f583065e064abfe13d119eb967a, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 35.73
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 5257422883103106735, guid: aff47f583065e064abfe13d119eb967a, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1625,6 +1640,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5469306032611069078, guid: aff47f583065e064abfe13d119eb967a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
     - target: {fileID: 7993926940454743870, guid: aff47f583065e064abfe13d119eb967a, type: 3}
       propertyPath: m_Name
       value: SpeedEffects_Particles
