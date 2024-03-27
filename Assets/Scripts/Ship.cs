@@ -6,7 +6,9 @@ using TMPro;
 public class Ship : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI scoreTmp;
-    [SerializeField] GameObject gm;
+    [SerializeField] TextMeshProUGUI scoreTmp2;
+    [SerializeField] GameObject explosionPrfb;
+    [SerializeField] GameObject gameOver;
     int score;
 
     private void FixedUpdate()
@@ -20,7 +22,10 @@ public class Ship : MonoBehaviour
         if(collision.transform.CompareTag("Enemy"))
         {
             Debug.Log("gameOver");
-            gm.SetActive(true);
+            gameOver.SetActive(true);
+            scoreTmp2.SetText("Score: " + score.ToString());
+            Instantiate(explosionPrfb, transform.position, Quaternion.identity);
+            Destroy(gameObject);
         }
     }
 }
