@@ -17,6 +17,7 @@ public class Spawner : MonoBehaviour
     float t;
     float spawnTime;
     int xAsteroidsSpawned;
+    float secondsElapsed;
 
     void Start()
     {
@@ -28,7 +29,7 @@ public class Spawner : MonoBehaviour
     void FixedUpdate()
     {
         t += Time.deltaTime;
-
+        secondsElapsed += Time.deltaTime;
         if(t >= spawnTime)
         {
             StartCoroutine(InstantiateAsteroid());
@@ -57,7 +58,7 @@ public class Spawner : MonoBehaviour
     void SetSpawnTime()
     {
         t = 0;
-        spawnTime = Mathf.Max(((spawnrate * (1 + Random.Range(-spawnrateMargin, spawnrateMargin))) - xAsteroidsSpawned * spawnIncreaseOverTime), minSpawnTime);
+        spawnTime = Mathf.Max(((spawnrate * (1 + Random.Range(-spawnrateMargin, spawnrateMargin))) - (int)secondsElapsed * spawnIncreaseOverTime), minSpawnTime);
         
     }
 }
