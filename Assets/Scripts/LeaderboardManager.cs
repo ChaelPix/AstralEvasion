@@ -3,8 +3,21 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using System;
-using Dan.Main;
 
+using UnityEngine.Networking;
+
+[System.Serializable]
+public class Player
+{
+    public string pseudo;
+    public int score;
+}
+
+[System.Serializable]
+public class PlayersList
+{
+    public Player[] players;
+}
 
 public class LeaderboardManager : MonoBehaviour
 {
@@ -15,31 +28,45 @@ public class LeaderboardManager : MonoBehaviour
 
     private string playerName;
     private int score;
+    private string scoresUrl = "https://stein-ind.fr/supernova_sprint/get_scores.php";
+    private string subUrl = "https://stein-ind.fr/supernova_sprint/submit.php";
 
-    private void Start()
+    private void Awake()
     {
-        LoadEntries();
+        StartCoroutine(GetTopScores());
     }
-
-    private void LoadEntries()
+    IEnumerator GetTopScores()
     {
-        Leaderboards.supernova.GetEntries(entries =>
+        using (UnityWebRequest www = UnityWebRequest.Get(scoresUrl))
         {
-            for (int i = 0; i < entries.Length; i++)
+            yield return www.SendWebRequest();
+
+            if (www.result != UnityWebRequest.Result.Success)
             {
-                if (i >= 6)
-                    return;
-                TextMeshProUGUI l = Instantiate(leaderboardPrfb, leaderboardGrid);
-                l.text = "#" + (i + 1) + " " + entries[i].Username;
-                l.color = colors[i % colors.Length];
-
-                TextMeshProUGUI ll = Instantiate(leaderboardPrfb, leaderboardGrid);
-                ll.text = "| " + entries[i].Score.ToString();
-                ll.color = colors[i % colors.Length];
+                Debug.LogError("Erreur lors de la récupération des scores : " + www.error);
             }
-        });
-    }
+            else
+            {
+                string jsonResponse = www.downloadHandler.text;
+                PlayersList playersList = JsonUtility.FromJson<PlayersList>("{\"players\":" + jsonResponse + "}");
 
+                for (int i = 0; i < playersList.players.Length; i++)
+                {
+                    if (i >= 6)
+                        break;
+
+                    TextMeshProUGUI l = Instantiate(leaderboardPrfb, leaderboardGrid);
+                    l.text = "#" + (i + 1) + " " + playersList.players[i].pseudo;
+                    l.color = colors[i % colors.Length];
+
+                    TextMeshProUGUI ll = Instantiate(leaderboardPrfb, leaderboardGrid);
+                    ll.text = "| " + playersList.players[i].score.ToString();
+                    ll.color = colors[i % colors.Length];
+                }
+
+            }
+        }
+    }
     public void Init(string _name)
     {
         playerName = _name;
@@ -48,7 +75,24 @@ public class LeaderboardManager : MonoBehaviour
     public void EndGame(int _score)
     {
         score = _score;
-        Leaderboards.supernova.UploadNewEntry(playerName, score);
+        StartCoroutine(PostScore(playerName, _score));
     }
 
+    IEnumerator PostScore(string pseudo, int score)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("pseudo", pseudo);
+        form.AddField("score", score);
+
+        string jsonData = JsonUtility.ToJson(new Player { pseudo = playerName, score = score });
+
+        using (UnityWebRequest www = UnityWebRequest.PostWwwForm(subUrl, jsonData))
+        {
+            www.SetRequestHeader("Content-Type", "application/json");
+            www.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(jsonData));
+
+            yield return www.SendWebRequest();
+        }
+    }
 }
+

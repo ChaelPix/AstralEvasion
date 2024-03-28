@@ -17,6 +17,7 @@ public class Intro : MonoBehaviour
 
     [Space]
     [SerializeField] GameObject game;
+    [SerializeField] GameObject transitionPanel;
     [SerializeField] GameObject gameCamera;
     [SerializeField] Transform sun;
     [SerializeField] float sunSize;
@@ -27,6 +28,11 @@ public class Intro : MonoBehaviour
 
     [SerializeField] TMP_InputField playerNameTxt;
     [SerializeField] LeaderboardManager ld;
+
+    private void Awake()
+    {
+        transitionPanel.SetActive(true);
+    }
     private void Start()
     {
         playerNameTxt.text = PlayerSingleton.Instance.PlayerName;
