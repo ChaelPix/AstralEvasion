@@ -13,7 +13,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float delayByAsteroid;
 
     [HideInInspector] public float speed;
-
+    [HideInInspector] public float boostSpeed = 1;
     Vector3 spawnPositionMin, spawnPositionMax;
     [SerializeField] Vector2 size;
     float t;
@@ -30,8 +30,9 @@ public class Spawner : MonoBehaviour
 
     void FixedUpdate()
     {
-        t += Time.deltaTime;
-        secondsElapsed += Time.deltaTime;
+        t += Time.deltaTime * boostSpeed;
+        secondsElapsed += Time.deltaTime * boostSpeed;
+
         if(t >= spawnTime)
         {
             StartCoroutine(InstantiateAsteroid());

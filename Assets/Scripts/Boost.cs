@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -14,15 +15,21 @@ public class Boost : MonoBehaviour
     [SerializeField, Range(0, 1)] float chromaticIntensity = .8f;
     [SerializeField, Range(0, 1)] float vignetteIntensity = .8f;
     [SerializeField] float partsSpeed = 600f;
+    [SerializeField] float fov = 90;
+    [SerializeField] float fovTime = .5f;
     float startchromaticIntensity;
     float startvignetteIntensity;
     float startpartsSpeed;
+    float startFOV;
 
     [Space]
     [SerializeField] Spawner spawner;
     [SerializeField] Ship ship;
     [SerializeField] PostProcessVolume postProcessVolume; 
     [SerializeField] ParticleSystem _particleSystem; 
+    [SerializeField] GameObject fireOrange; 
+    [SerializeField] GameObject fireBlue; 
+    [SerializeField] Camera cam; 
 
     private ChromaticAberration chromaticAberration;
     private Vignette vignette;
@@ -43,6 +50,8 @@ public class Boost : MonoBehaviour
 
         var mainModule = _particleSystem.main;
         startpartsSpeed = mainModule.startSpeed.constant;
+
+        startFOV = cam.fieldOfView;
 
         backgroundAsteroids.AddRange(GameObject.FindObjectsOfType<Asteroids>());
     }
@@ -71,6 +80,10 @@ public class Boost : MonoBehaviour
             var mainModule = _particleSystem.main;
             mainModule.startSpeed = partsSpeed;
 
+            fireOrange.SetActive(false);
+            fireBlue.SetActive(true);
+            cam.DOFieldOfView(fov, fovTime);
+            spawner.boostSpeed = speedModifier;
             ship.isBoost = true;
             isBoosted = true;
         }
@@ -94,6 +107,12 @@ public class Boost : MonoBehaviour
 
             var mainModule = _particleSystem.main;
             mainModule.startSpeed = startpartsSpeed;
+
+            fireOrange.SetActive(true);
+            fireBlue.SetActive(false);
+
+            cam.DOFieldOfView(startFOV, fovTime);
+            spawner.boostSpeed = 1;
             ship.isBoost = false;
             isBoosted = false; 
         }
