@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.UI;
 
 public class Boost : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class Boost : MonoBehaviour
     [SerializeField] ParticleSystem _particleSystem; 
     [SerializeField] GameObject fireOrange; 
     [SerializeField] GameObject fireBlue; 
-    [SerializeField] Camera cam; 
+    [SerializeField] Camera cam;
 
     private ChromaticAberration chromaticAberration;
     private Vignette vignette;
@@ -114,7 +115,7 @@ public class Boost : MonoBehaviour
             cam.DOFieldOfView(startFOV, fovTime);
             spawner.boostSpeed = 1;
             ship.isBoost = false;
-            isBoosted = false; 
+            isBoosted = false;
         }
     }
 }

@@ -10,6 +10,7 @@ public class Ship : MonoBehaviour
     [SerializeField] TextMeshProUGUI scoreTmp2;
     [SerializeField] GameObject explosionPrfb;
     [SerializeField] GameObject gameOver;
+    [SerializeField] GameObject slider;
     [SerializeField] AudioSource sound;
     [SerializeField] LeaderboardManager ld;
 
@@ -28,14 +29,23 @@ public class Ship : MonoBehaviour
     {
         if(collision.transform.CompareTag("Enemy") && !d)
         {
-            d = true;
-            Debug.Log("gameOver");
-            gameOver.SetActive(true);
-            scoreTmp2.SetText("Score: " + score.ToString());
-            Instantiate(explosionPrfb, transform.position, Quaternion.identity);
-            Destroy(sound);
-            ld.EndGame(score);
-            Destroy(gameObject, .1f);
+            GameOver();
         }
+    }
+
+    public void GameOver()
+    {
+        if (d)
+            return;
+
+        d = true;
+        slider.SetActive(false);
+        Debug.Log("gameOver");
+        gameOver.SetActive(true);
+        scoreTmp2.SetText("Score: " + score.ToString());
+        Instantiate(explosionPrfb, transform.position, Quaternion.identity);
+        Destroy(sound);
+        ld.EndGame(score);
+        Destroy(gameObject, .1f);
     }
 }
