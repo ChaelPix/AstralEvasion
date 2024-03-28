@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Ship : MonoBehaviour
 {
@@ -10,6 +11,7 @@ public class Ship : MonoBehaviour
     [SerializeField] GameObject explosionPrfb;
     [SerializeField] GameObject gameOver;
     [SerializeField] AudioSource sound;
+    [SerializeField] LeaderboardManager ld;
 
     int score;
 
@@ -28,6 +30,7 @@ public class Ship : MonoBehaviour
             scoreTmp2.SetText("Score: " + score.ToString());
             Instantiate(explosionPrfb, transform.position, Quaternion.identity);
             sound.Stop();
+            ld.EndGame(score);
             Destroy(gameObject);
         }
     }

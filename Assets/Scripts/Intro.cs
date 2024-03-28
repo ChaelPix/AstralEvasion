@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using TMPro;
 
 public class Intro : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class Intro : MonoBehaviour
     [SerializeField] float camTime;
     [SerializeField] float camToGameTime;
 
+    [SerializeField] TMP_InputField playerNameTxt;
+    [SerializeField] LeaderboardManager ld;
     private void Start()
     {
         cameraPos = _camera.position;
@@ -42,6 +45,13 @@ public class Intro : MonoBehaviour
 
     IEnumerator Introduction()
     {
+        string _name = "snir";
+        if(!string.IsNullOrWhiteSpace(playerNameTxt.text))
+        {
+            _name = playerNameTxt.text;
+        }
+        ld.Init(_name);
+
         _camera.DOKill();
         sun.DOScale(sunSize, sunTime);
         yield return new WaitForSeconds(sunToCamTime);
