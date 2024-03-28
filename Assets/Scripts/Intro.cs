@@ -29,6 +29,7 @@ public class Intro : MonoBehaviour
     [SerializeField] LeaderboardManager ld;
     private void Start()
     {
+        playerNameTxt.text = PlayerSingleton.Instance.PlayerName;
         cameraPos = _camera.position;
     }
 
@@ -49,6 +50,7 @@ public class Intro : MonoBehaviour
         if(!string.IsNullOrWhiteSpace(playerNameTxt.text))
         {
             _name = playerNameTxt.text;
+            PlayerSingleton.Instance.PlayerName = _name;
         }
         ld.Init(_name);
 

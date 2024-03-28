@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Asteroids : MonoBehaviour
 {
-
-    [SerializeField] float speed;
+    public bool isDecor;
+    [SerializeField] public float speed;
     [SerializeField] float triggerZ;
     [SerializeField] float respawnZ;
     [SerializeField] bool doDestroy = false;

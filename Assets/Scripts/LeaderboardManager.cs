@@ -7,6 +7,7 @@ using System;
 
 public class LeaderboardManager : MonoBehaviour
 {
+    public bool DEBUG_DOENABLE;
     [SerializeField] private Transform leaderboardGrid;
     [SerializeField] private TextMeshProUGUI leaderboardPrfb;
     [SerializeField] private Color32[] colors;
@@ -17,7 +18,8 @@ public class LeaderboardManager : MonoBehaviour
 
     private void Awake()
     {
-        StartCoroutine(GetLeaderboard());
+        if (DEBUG_DOENABLE)
+            StartCoroutine(GetLeaderboard());
     }
 
     public void Init(string _name)
@@ -28,7 +30,8 @@ public class LeaderboardManager : MonoBehaviour
     public void EndGame(int _score)
     {
         score = _score;
-        StartCoroutine(UploadScore(playerName, score));
+        if (DEBUG_DOENABLE)
+            StartCoroutine(UploadScore(playerName, score));
     }
 
     IEnumerator UploadScore(string _playerName, int _score)
@@ -38,11 +41,34 @@ public class LeaderboardManager : MonoBehaviour
             try
             {
                 conn.Open();
-                string sql = "INSERT INTO supernova_players (player_name, score) VALUES (@playerName, @score)";
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@playerName", _playerName);
-                cmd.Parameters.AddWithValue("@score", _score);
-                cmd.ExecuteNonQuery();
+                // check player
+                string checkSql = "SELECT score FROM supernova_players WHERE player_name = @playerName LIMIT 1";
+                MySqlCommand checkCmd = new MySqlCommand(checkSql, conn);
+                checkCmd.Parameters.AddWithValue("@playerName", _playerName);
+                object result = checkCmd.ExecuteScalar();
+
+                if (result != null)
+                {
+                    int currentScore = Convert.ToInt32(result);
+                    if (_score > currentScore)
+                    {
+                        // new best score
+                        string updateSql = "UPDATE supernova_players SET score = @score WHERE player_name = @playerName";
+                        MySqlCommand updateCmd = new MySqlCommand(updateSql, conn);
+                        updateCmd.Parameters.AddWithValue("@score", _score);
+                        updateCmd.Parameters.AddWithValue("@playerName", _playerName);
+                        updateCmd.ExecuteNonQuery();
+                    }
+                }
+                else
+                {
+                    // doesnt exist
+                    string insertSql = "INSERT INTO supernova_players (player_name, score) VALUES (@playerName, @score)";
+                    MySqlCommand insertCmd = new MySqlCommand(insertSql, conn);
+                    insertCmd.Parameters.AddWithValue("@playerName", _playerName);
+                    insertCmd.Parameters.AddWithValue("@score", _score);
+                    insertCmd.ExecuteNonQuery();
+                }
             }
             catch (System.Exception ex)
             {
@@ -51,6 +77,7 @@ public class LeaderboardManager : MonoBehaviour
         }
         yield return null;
     }
+
 
     IEnumerator GetLeaderboard()
     {

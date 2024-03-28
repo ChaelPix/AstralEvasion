@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private GameObject[] asteroidsPrfbs;
+    [SerializeField] private Asteroids[] asteroidsPrfbs;
     [SerializeField] float spawnrate;
     [SerializeField, Range(0, 1)] float spawnrateMargin;
     [SerializeField] private int asteroidBySpawn = 3;
     [SerializeField] private float spawnIncreaseOverTime;
     [SerializeField] private float minSpawnTime;
     [SerializeField] private float delayByAsteroid;
+
+    [HideInInspector] public float speed;
 
     Vector3 spawnPositionMin, spawnPositionMax;
     [SerializeField] Vector2 size;
@@ -47,8 +49,9 @@ public class Spawner : MonoBehaviour
             Vector3 pos = new Vector3(posX, posY, transform.position.z);
 
             int x = Random.Range(0, asteroidsPrfbs.Length);
-            Transform obj = Instantiate(asteroidsPrfbs[x], pos, Quaternion.identity).transform;
-            obj.localScale = Vector3.one * Random.Range(size.x, size.y);
+            Asteroids obj = Instantiate(asteroidsPrfbs[x], pos, Quaternion.identity);
+            obj.speed = speed;
+            obj.transform.localScale = Vector3.one * Random.Range(size.x, size.y);
 
             xAsteroidsSpawned++;
             yield return new WaitForSeconds(delayByAsteroid);

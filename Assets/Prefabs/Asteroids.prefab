@@ -677,6 +677,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e819bc7c618ba94a8f2bc916afc508e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDecor: 1
   speed: -10
   triggerZ: -1000
   respawnZ: 2500

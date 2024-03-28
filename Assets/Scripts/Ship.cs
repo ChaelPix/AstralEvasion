@@ -14,24 +14,28 @@ public class Ship : MonoBehaviour
     [SerializeField] LeaderboardManager ld;
 
     int score;
-
+    bool d;
+    [HideInInspector] public bool isBoost;
     private void FixedUpdate()
     {
         score += 1;
+        if (isBoost)
+            score += 1;
         scoreTmp.SetText(score.ToString());
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.transform.CompareTag("Enemy"))
+        if(collision.transform.CompareTag("Enemy") && !d)
         {
+            d = true;
             Debug.Log("gameOver");
             gameOver.SetActive(true);
             scoreTmp2.SetText("Score: " + score.ToString());
             Instantiate(explosionPrfb, transform.position, Quaternion.identity);
-            sound.Stop();
+            Destroy(sound);
             ld.EndGame(score);
-            Destroy(gameObject);
+            Destroy(gameObject, .1f);
         }
     }
 }

@@ -5,7 +5,6 @@ public class MusicPlayer : MonoBehaviour
     public AudioClip[] clips; 
     private AudioSource audioSource;
     private int currentClipIndex = -1; 
-
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
@@ -14,7 +13,7 @@ public class MusicPlayer : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (!audioSource.isPlaying)
+        if (audioSource && !audioSource.isPlaying)
         {
             PlayNextClip();
         }
