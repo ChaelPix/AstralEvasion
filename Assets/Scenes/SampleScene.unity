@@ -688,7 +688,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5362902876493229177, guid: 4fc3b4f8b26184c458fc789c84d99112, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6478706038317334509, guid: 4fc3b4f8b26184c458fc789c84d99112, type: 3}
       propertyPath: m_LODs.Array.data[1].renderers.Array.data[0].renderer
@@ -2798,9 +2798,9 @@ RectTransform:
   - {fileID: 1150948130}
   m_Father: {fileID: 3349954186205557903}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -121.99999, y: 145}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 838, y: 145}
   m_SizeDelta: {x: 808.1, y: 97.899994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1523902834
