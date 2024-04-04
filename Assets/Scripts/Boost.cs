@@ -31,6 +31,7 @@ public class Boost : MonoBehaviour
     [SerializeField] GameObject fireOrange; 
     [SerializeField] GameObject fireBlue; 
     [SerializeField] Camera cam;
+    [SerializeField] AudioSource boostAd;
 
     private ChromaticAberration chromaticAberration;
     private Vignette vignette;
@@ -87,6 +88,7 @@ public class Boost : MonoBehaviour
             spawner.boostSpeed = speedModifier;
             ship.isBoost = true;
             isBoosted = true;
+            boostAd.Play();
         }
         else if (!Input.GetMouseButton(1) && isBoosted)
         {
